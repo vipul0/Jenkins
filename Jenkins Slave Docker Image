@@ -1,0 +1,30 @@
+#Create A Jenkins Slave Docker Image
+
+
+#Next step is to create a slave image. The image should contain the following minimum configurations to act as a slave.
+1. sshd service running on port 22.
+
+2. Jenkins user with password.
+
+3. All the required application dependencies for the build. 
+For example, for a java maven project, you need to have git, java, and maven installed on the image.
+
+
+#Configure Jenkins Server
+1. Head over to Jenkins Dashboard –> Manage jenkins –> Manage Plugins.
+
+2. Under available tab, search for “Docker Plugin” and install it.
+
+3. Once installed, head over to jenkins Dashboard –> Manage jenkins –>Configure system.
+
+4. Under “Configure System”, if you scroll down, there will be a section named “cloud” at the last. 
+There you can fill out the docker host parameters for spinning up the slaves.
+
+Now, from “Add Docker Template” dropdown, click “docker template” and fill in the details 
+
+Docker Image – Image that you created for the slave.
+
+
+Building Jobs On Docker Slaves
+Now that you have the slave configurations ready, you can create a job, select “Restrict where this project can be run” option.
+select the docker host as slave using the label as shown below
