@@ -1,0 +1,26 @@
+#start the system and install docker in it
+
+wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-selinux-17.03.3.ce-1.el7.noarch.rpm
+
+wget https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-17.03.3.ce-1.el7.x86_64.rpm
+
+yum localinstall docker-ce-selinux -y
+
+yum localinstall docker-ce -y
+
+
+#Jenkins master connects to the docker host using REST API’s. So we need to enable the remote API for our docker host.
+
+#edit the below file
+vi /usr/lib/systemd/system/docker.service
+
+#replace the line start with ExecStart with following line
+ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:4243 -H unix:///var/run/docker.sock
+
+systemctl daemon-reload
+service docker restart
+
+
+
+#test the connection (replace localhost with your docker host ip)
+curl http://localhost:4243/version
