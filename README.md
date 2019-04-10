@@ -1,2 +1,5 @@
 # Jenkins
-Hands-on-Practice
+
+Pre-Requsite
+
+jenkins Git Terraform AWS CLI
