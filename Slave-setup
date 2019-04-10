@@ -1,0 +1,41 @@
+Step 1: Install the necessary packages.
+
+yum -y install java-1.8.0-openjdk git
+
+Step 2: Create a user on the agent to be used by Jenkins.
+sudo useradd -d /var/lib/jenkins jenkins
+
+Step 3: Generate an ssh key.
+ssh-keygen
+
+Step 4: Add the public key to the authorized_keys file of the jenkins user on the agent node.
+sudo mkdir /var/lib/jenkins/.ssh
+sudo vi /var/lib/jenkins/.ssh/authorized_keys
+
+Next, we need to add the public key (the contents of id_rsa.pub) to the authorized_keys file of the jenkins user that we created earlier. 
+This will allow anyone who has the private key (in our case, the Jenkins master) to log in to the agent node as the jenkins user. 
+First, we need to create the directory that the authorized_keys file belongs in, and then we can create the file itself:
+
+
+Step 5: Add the agent node via the Jenkins UI.
+Now we’re ready to finish setting up the node via the Jenkins UI. 
+In Jenkins, go to Manage Jenkins, then Manage Nodes, then click New Node. 
+Here you can give your node a name, then select Permanent Agent and click OK.
+
+There are a variety of options you can use here to customize your node. All we care about right now is the Launch Method.
+
+Select Launch Slave Agents via SSH for Launch Method.
+Enter the hostname or IP address of your agent node in the Host field.
+Click the Add button next to Credentials and select the Jenkins scope.
+For the credential, set Kind to SSH username with private key.
+Enter jenkins for the username.
+For the private key, select Enter directly. Then, copy the contents of your private key file (~/.ssh/id_rsa by default) and paste it into the Key box.
+If you used a passphrase when generating the key, enter that for Passphrase, otherwise, leave it blank.
+Enter a descriptive id and description, then click Add.
+Click Save to save the new node.
+
+
+Step 6: Make sure everything is working.
+Your new node should now appear in the list of nodes. 
+You may notice a red X on the node’s icon. This indicates that it is not connected, but that’s because we just added it and it hasn’t had a chance to connect yet.
+Wait a few seconds and refresh the page, and the red X will go away, indicating that the node is connected.
