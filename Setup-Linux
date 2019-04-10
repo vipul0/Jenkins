@@ -1,0 +1,43 @@
+#start you machine
+
+#this is not suggested. best Practice is to create a firewall rules for following port
+iptables -F
+
+#this is not suggested. best Practice is to create a selinux policy for jenkins
+setenforce 0
+
+#you would require wget command to download the rpm from internet. if you dont have wget, run the following command
+yum install wget
+
+
+#download epel rpm form following link
+wget https://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-11.noarch.rpm
+
+
+#install epel
+yum install epel-release-7-11.noarch.rpm
+
+
+#create a jenkins repository in system
+wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat/jenkins.repo
+rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+
+#install jenkins
+yum install jenkins
+
+
+#jenkins have a dependencie on Java. once jenkins is installed in your system, also install java ( jdk and jre ).
+yum install java-1.8.0-openjdk
+
+
+#once the jdk is installed, setup JAVA_HOME variable
+repolink -f $(which java)
+
+#copy the upper output and remove /bin/java from it and paste it below
+export JAVA_HOME=output_line_34
+
+export $PATH=$JAVA_HOME/bin/java:$PATH
+
+#start jenkins service and check the status
+systemctl start jenkins
+systemctl status jenkins
